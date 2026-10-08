@@ -1,5 +1,25 @@
-﻿<h3>Factorial</h3>
+﻿@page "/factorial"
+@rendermode InteractiveServer
+@using System.Numerics;
+
+<hr />
+<h3>Factorial</h3>
+<div class="factorial">
+	<input type="number" @bind="n" @bind:after="Calculate"/>
+	<h3>@n! = @f</h3>
+	@* <button @onclick="Calculate" class="btn btn-primary">Вычислить</button> *@
+</div>
+<hr />
 
 @code {
-
+	int n;
+	BigInteger f = 1;
+	void Calculate()
+	{
+		f = 1;
+		for (int i = 1; i <= n; i++)
+		{
+			f *= i;
+		}
+	}
 }
