@@ -1,0 +1,16 @@
+.fibonacci, .fibonacci > div{
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+}
+.fibonacci > div{
+	width:20%;
+}
+.fibonacci h3{
+	margin:16px;
+}
+.fibonacci input
+{
+	font-size:24px;
+	width:100px;
+}

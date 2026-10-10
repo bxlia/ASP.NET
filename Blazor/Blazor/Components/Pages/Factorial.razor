@@ -9,6 +9,19 @@
 	<h3>@n! = @f</h3>
 	@* <button @onclick="Calculate" class="btn btn-primary">Вычислить</button> *@
 </div>
+
+@* <h3>Power</h3>
+<div class="task">
+	<input type="number" @bind="a" @bind:event="oninput" @bind:after="Calculate" />
+	<sup>@e</sup>
+	<h3>@a<sup>@e</sup> = @p</h3>
+</div> *@
+
+@* <h3>Fibonacci</h3>
+<div class="task">
+	<input type="number" @bind="k" @bind:after="Calculate"/>
+	<h3>F<sub>@k</sub> = @fb</h3>
+</div> *@
 <hr />
 
 @code {

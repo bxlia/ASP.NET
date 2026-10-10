@@ -1,0 +1,13 @@
+@page "/fibonacci"
+@rendermode InteractiveServer
+@using System.Numerics;
+
+<h3>Fibonacci</h3>
+<div class="fibonacci">
+	<input type="number" @bind="k" @bind:event="oninput" @bind:after="Calculate" />
+	<h3>F<sub>@k</sub> = @fb</h3>
+</div>
+
+@code {
+
+}

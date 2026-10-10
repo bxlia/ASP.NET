@@ -1,0 +1,14 @@
+﻿@page "/power"
+@rendermode InteractiveServer
+@using System.Numerics;
+
+<h3>Power</h3>
+<div class="power">
+	<input type="number" @bind="a" @bind:event="oninput" @bind:after="Calculate" />
+	<input type="number" @bind="e" @bind:event="oninput" @bind:after="Calculate" />
+	<h3>@a<sup>@e</sup> = @p</h3>
+</div>
+
+@code {
+
+}
