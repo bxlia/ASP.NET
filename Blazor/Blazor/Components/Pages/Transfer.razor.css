@@ -1,0 +1,18 @@
+﻿.transfer, .transfer > div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+	.transfer > div {
+		width: 20%;
+	}
+
+	.transfer h3 {
+		margin: 16px;
+	}
+
+	.transfer input {
+		font-size: 24px;
+		width: 100px;
+	}

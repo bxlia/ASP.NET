@@ -1,0 +1,12 @@
+﻿@page "/transfer"
+@rendermode InteractiveServer
+@using System.Numerics;
+
+<h3>From 10 in 2</h3>
+<div class="transfer">
+	<input type="number" @bind="n" @bind:event="oninput" @bind:after="Calculate" />
+	<h3>10: @n = 2: @bin = 16: @hex</h3>
+</div>
+@code {
+
+}
