@@ -16,6 +16,9 @@ namespace Blazor.Components.Pages
 
 		string ToBase(int a, int b)
 		{
+			//bool neg = a < 0;
+			//if (neg) a = -a;
+
 			string digits = "0123456789ABCDEF";
 			string result = "";
 
