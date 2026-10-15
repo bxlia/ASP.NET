@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.37411.7 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TODOlist", "TODOlist\TODOlist.csproj", "{62A6D5FE-B1CC-4012-952C-E025E2D99BA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies", "Movies\Movies.csproj", "{13F8831F-E50B-45B7-A879-6B63394CE6E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{62A6D5FE-B1CC-4012-952C-E025E2D99BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62A6D5FE-B1CC-4012-952C-E025E2D99BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62A6D5FE-B1CC-4012-952C-E025E2D99BA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13F8831F-E50B-45B7-A879-6B63394CE6E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13F8831F-E50B-45B7-A879-6B63394CE6E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13F8831F-E50B-45B7-A879-6B63394CE6E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13F8831F-E50B-45B7-A879-6B63394CE6E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
