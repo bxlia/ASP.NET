@@ -1,9 +1,36 @@
 ﻿ul{
 	list-style:none;
 }
+li{
+	padding:0;
+}
+li:hover{
+	height:32px;
+	background-color:lightgray;
+}
+li > span{
+	visibility:hidden;
+}
+li:hover > span{
+	visibility:visible;
+	font-family:'Wingdings 2';
+	font-size:32px;
+}
+li > span{
+	cursor:default;
+	height:24px;
+}
+li>span:hover{
+	border:solid 1px;
+	background-color:white;
+}
 input[type=checkbox]:checked + label{
 	color:gray;
 	text-decoration:line-through;
+}
+label{
+	width:95%;
+	height:32px;
 }
 .statistics{
 	display:flex;
