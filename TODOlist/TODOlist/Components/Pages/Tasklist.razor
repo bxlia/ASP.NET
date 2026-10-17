@@ -22,7 +22,7 @@
 		<li>
 			<input type="checkbox" id="@item.Description" @bind="@item.DONE"/>
 			<label for="@item.Description">@item.Description</label>
-			<button @bind="item" @onclick="() => tasklist.RemoveAll(t => t == item)" class="btn btn-danger">X</button>
+			<button @bind="item" @onclick="() => tasklist.RemoveAll(t => t == item)" class="btn btn-danger">O</button>
 		</li>
 	}
 </ul>
