@@ -2,6 +2,13 @@
 	display:flex;
 	justify-content:space-between;
 }
+.movie-container img{
+	max-width:500px;
+}
 .movie-text-field{
 	width: 45%;
 }
+/*.image-container{
+	width:48%;
+	height:50vh;
+}*/
