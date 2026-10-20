@@ -1,4 +1,5 @@
 @page "/movies"
+@rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.EntityFrameworkCore
 @using Movies.Models
@@ -10,6 +11,10 @@
 
 <div class="controls">
     <h1>Index</h1>
+    <form action="/movies">
+        <input type="search" name="titleFilter" />
+        <input type="submit" value="Поиск" class="btn btn-primary"/>
+    </form>
 
     <p>
         <a href="movies/create" class="btn btn-primary">Create New</a>
@@ -32,10 +37,16 @@
 @code {
     private MoviesContext context = default!;
 
+    [SupplyParameterFromQuery]
+    string? TitleFilter{ get; set; }
+
     protected override void OnInitialized()
     {
         context = DbFactory.CreateDbContext();
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
+
+    IQueryable<Movie> FilteredMovies =>
+        context.Movie.Where(m => m.Title.Contains(TitleFilter ?? string.Empty));
 }
