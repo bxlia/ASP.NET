@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.EntityFrameworkCore
 @using Academy.Models
+@rendermode InteractiveServer
 @implements IAsyncDisposable
 @inject IDbContextFactory<AcademyContext> DbFactory
 @inject NavigationManager NavigationManager
@@ -15,8 +16,8 @@
 </p>
 
 <QuickGrid Class="table" Items="context.Directions.Include(d => d.Groups)">
-    <PropertyColumn Property="direction => direction.direction_name" />
-    <PropertyColumn Property="direction => direction.Groups.Count" Title="Groups count"/>
+    <PropertyColumn Sortable="true" Property="direction => direction.direction_name" />
+    <PropertyColumn Sortable="true" Property="direction => direction.Groups.Count" Title="Groups count"/>
 
     <TemplateColumn Context="direction">
         <a href="@($"directions/edit?direction_id={direction.direction_id}")">Edit</a> |
