@@ -9,21 +9,31 @@
 <h1>Details</h1>
 
 <div>
-    <h2>Direction</h2>
-    <hr />
+    @* <h2>Direction</h2>
+    <hr /> *@
     @if (direction is null)
     {
         <p><em>Loading...</em></p>
     }
     else {
-        <dl class="row">
+        <div>
+            <h1></h1>
+            <a href="@($"/directions/edit?direction_id={direction.direction_id}")" class="btn btn-primary">Изменить</a>
+        </div>
+        @* <dl class="row">
             <dt class="col-sm-2">direction_name</dt>
             <dd class="col-sm-10">@direction.direction_name</dd>
-        </dl>
-        <div>
-            <a href="@($"/directions/edit?direction_id={direction.direction_id}")">Edit</a> |
+        </dl>*@
+        <h2>Количество групп: @direction.Groups.Count</h2>
+        <ul>
+            @foreach(Group group in direction.Groups)
+            {
+                <li>@group.group_name</li>
+            }
+        </ul>
+        @*<div>
             <a href="@($"/directions")">Back to List</a>
-        </div>
+        </div> *@
     }
 </div>
 
@@ -36,7 +46,7 @@
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        direction = await context.Directions.FirstOrDefaultAsync(m => m.direction_id == direction_id);
+        direction = await context.Directions.Include(d => d.Groups).FirstOrDefaultAsync(m => m.direction_id == direction_id);
 
         if (direction is null)
         {
