@@ -10,30 +10,55 @@
 <PageTitle>Groups</PageTitle>
 
 <div class="controls">
-    <h1>Groups</h1>
+    <h1>Группы</h1>
     <form action="/groups">
-        <input type="search" name="titleFilter" value="@TitleFilter"/>
-        <input type="submit" value="�����" class="btn btn-primary" />
+        <input type="search" name="titleFilter" value="@TitleFilter" placeholder="Название группы" />
+        <input type="submit" value="Найти" class="btn btn-primary" />
+        @if (!string.IsNullOrWhiteSpace(TitleFilter))
+        {
+            <a href="/groups" class="btn btn-secondary">Сбросить</a>
+        }
     </form>
-
     <div>
-        <a href="groups/create" class="btn btn-primary">��������</a>
+        <label for="items-per-page">Строк на странице: </label>
+        <select id="items-per-page" @bind="pagination.ItemsPerPage" class="form-control">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+    <div>
+        <a href="groups/create" class="btn btn-primary">Создать</a>
     </div>
 </div>
 
-<QuickGrid Class="table" Items="FilteredGroups">
-    <PropertyColumn Property="group => group.group_name" />
-    <PropertyColumn Property="group => group.start_date" />
-    <PropertyColumn Property="group => group.start_time" />
-    <PropertyColumn Property="group => new Week((int)(group.learning_days ?? 0))" />
-    <PropertyColumn Property="group => group.Direction.direction_name" />
+<div class="table-container">
+    <QuickGrid Class="table" Items="FilteredGroups" Pagination="pagination">
+        <PropertyColumn Title="Группа"
+                        Property="group => group.group_name"
+                        Sortable="true"
+                        IsDefaultSortColumn="true" />
+        <PropertyColumn Title="Дата начала" Property="group => group.start_date" Sortable="true" />
+        <PropertyColumn Title="Время начала" Property="group => group.start_time" Sortable="true" />
+        <TemplateColumn Title="Учебные дни"
+                        Context="group"
+                        Sortable="true"
+                        SortBy="daysSort">
+            @(new Week((int)(group.learning_days ?? 0)))
+        </TemplateColumn>
+        <PropertyColumn Title="Направление"
+                        Property="group => group.Direction.direction_name"
+                        Sortable="true" />
 
-    <TemplateColumn Context="group">
-@*         <a href="@($"groups/edit?group_id={group.group_id}")">Edit</a> |
-*@        <a href="@($"groups/details?group_id={group.group_id}")">Details</a> |
-        <a href="@($"groups/delete?group_id={group.group_id}")">Delete</a>
-    </TemplateColumn>
-</QuickGrid>
+        <TemplateColumn Title="Действия" Context="group">
+@*             <a href="@($"groups/edit?group_id={group.group_id}")">Изменить</a> |
+ *@            <a href="@($"groups/details?group_id={group.group_id}")">Details</a> |
+            <a href="@($"groups/delete?group_id={group.group_id}")">Delete</a>
+        </TemplateColumn>
+    </QuickGrid>
+</div>
+<Paginator State="pagination" />
 
 @code {
     private AcademyContext context = default!;
@@ -41,7 +66,9 @@
     [SupplyParameterFromQuery(Name = "titleFilter")]
     public string? TitleFilter { get; set; }
 
-    GridSort<Group> nameSort = GridSort<Group>.ByAscending(g => g.group_name);
+    GridSort<Group> daysSort = GridSort<Group>.ByAscending(g => g.learning_days);
+
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
 
     protected override void OnInitialized()
     {
@@ -58,6 +85,5 @@
             .Include(g => g.Direction)
             .Where(g =>
                 string.IsNullOrWhiteSpace(TitleFilter) ||
-                g.group_name.Contains(TitleFilter))
-            .OrderBy(g => g.group_name);
+                g.group_name.Contains(TitleFilter));
 }

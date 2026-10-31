@@ -1,0 +1,21 @@
+.controls,
+.controls > div
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.controls select
+{
+	width: 60px;
+	text-align: right;
+}
+
+.table-container
+{
+	height: 70vh;
+	overflow: auto;
+}

@@ -19,7 +19,7 @@
         <div>
             <h1>@group.group_name</h1>
             <div>
-                <a href="@($"/groups/edit?group_id={group.group_id}")" class="btn btn-primary">Изменить</a>
+                <a href="@($"/groups/edit?group_id={group.group_id}")" class="btn btn-primary">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</a>
             </div>
         </div>
         <dl class="row">
@@ -32,7 +32,7 @@
             <dt class="col-sm-2">start_time</dt>
             <dd class="col-sm-10">@group.start_time</dd>
             <dt class="col-sm-2">learning_days</dt>
-            <dd class="col-sm-10">@(new Week((int)group.learning_days))</dd>
+            <dd class="col-sm-10">@(new Week((int)(group.learning_days ?? 0)))</dd>
         </dl>
         @* <div>
             <a href="@($"/groups/edit?group_id={group.group_id}")">Edit</a> |

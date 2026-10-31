@@ -1,47 +1,58 @@
 @page "/directions/details"
+@rendermode InteractiveServer
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Academy.Models
+@using Academy.Components.Pages.GroupPages
 @inject IDbContextFactory<AcademyContext> DbFactory
 @inject NavigationManager NavigationManager
 
-<PageTitle>Details</PageTitle>
+<PageTitle>Направление</PageTitle>
 
-<h1>Details</h1>
+<h1>Направление</h1>
 
 <div>
-    @* <h2>Direction</h2>
-    <hr /> *@
     @if (direction is null)
     {
-        <p><em>Loading...</em></p>
+        <p><em>Загрузка...</em></p>
     }
-    else {
-        <div>
-            <h1></h1>
-            <a href="@($"/directions/edit?direction_id={direction.direction_id}")" class="btn btn-primary">��������</a>
+    else
+    {
+        <div class="details-header">
+            <h2>@direction.direction_name</h2>
+            <a href="@($"/directions/edit?direction_id={direction.direction_id}")" class="btn btn-primary">Изменить</a>
         </div>
-        @* <dl class="row">
-            <dt class="col-sm-2">direction_name</dt>
-            <dd class="col-sm-10">@direction.direction_name</dd>
-        </dl>*@
-        <h2>���������� �����: @direction.Groups.Count</h2>
-        <QuickGrid Items="@direction.Groups.AsQueryable()" Class="table">
-            <PropertyColumn Property="group => group.group_name"></PropertyColumn>
-            <PropertyColumn Property="group => group.start_date"></PropertyColumn>
-            <PropertyColumn Property="group => group.start_time"></PropertyColumn>
-            <PropertyColumn Property="group => group.learning_days"></PropertyColumn>
-        </QuickGrid>
-        @* <ul>
-            @foreach(Group group in direction.Groups)
-            {
-                <li>@group.group_name</li>
-            }
-        </ul> *@
-        
-        @*<div>
-            <a href="@($"/directions")">Back to List</a>
-        </div> *@
+
+        <h3>Группы направления: @direction.Groups.Count</h3>
+
+        @if (direction.Groups.Count == 0)
+        {
+            <p><em>По этому направлению пока нет групп.</em></p>
+        }
+        else
+        {
+            <QuickGrid Class="table" Items="direction.Groups.AsQueryable()">
+                <PropertyColumn Title="Группа"
+                                Property="group => group.group_name"
+                                Sortable="true"
+                                IsDefaultSortColumn="true" />
+                <PropertyColumn Title="Дата начала" Property="group => group.start_date" Sortable="true" />
+                <PropertyColumn Title="Время начала" Property="group => group.start_time" Sortable="true" />
+                <TemplateColumn Title="Учебные дни"
+                                Context="group"
+                                Sortable="true"
+                                SortBy="daysSort">
+                    @(new Week((int)(group.learning_days ?? 0)))
+                </TemplateColumn>
+                <TemplateColumn Title="Действия" Context="group">
+                    <a href="@($"/groups/details?group_id={group.group_id}")">Просмотр</a>
+                </TemplateColumn>
+            </QuickGrid>
+        }
+
+        <div>
+            <a href="/directions">Назад к списку</a>
+        </div>
     }
 </div>
 
@@ -50,6 +61,8 @@
 
     [SupplyParameterFromQuery]
     private int direction_id { get; set; }
+
+    GridSort<Group> daysSort = GridSort<Group>.ByAscending(g => g.learning_days);
 
     protected override async Task OnInitializedAsync()
     {
