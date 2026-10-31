@@ -1,0 +1,29 @@
+﻿ul {
+	list-style:none;
+	display:flex;
+	justify-content:space-between;
+	margin:0;
+	padding:0;
+}
+legend{
+	all:unset;
+	display:block;
+	unicode-bidi:isolate;
+	padding-inline:2px;
+}
+fieldset {
+	all: unset;
+	display: block;
+	min-inline-size:min-content;
+	margin-inline:2px;
+	border-width:2px;
+	border-style:groove;
+	/*border-color:ThreeDFace;*/
+	border-color:#DED4DA;
+	border-image:none;
+	padding-block:0.35em 0.625em;
+	padding-inline:0.75em;
+	border-radius:6px;
+	width:94%;
+	margin-left:-1px;
+}
