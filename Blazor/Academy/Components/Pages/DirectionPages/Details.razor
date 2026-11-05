@@ -18,16 +18,22 @@
     }
     else
     {
-        <div class="details-header">
+        <div class="controls">
             <h2>@direction.direction_name</h2>
             <a href="@($"/directions/edit?direction_id={direction.direction_id}")" class="btn btn-primary">Изменить</a>
         </div>
-
+        <hr />
         <h3>Группы направления: @direction.Groups.Count</h3>
 
+        <dl class="row">
+            <dt class="col-sm-2">Кол-во групп</dt>
+            <dd class="col-sm-10">@direction.Groups.Count</dd>
+            <dt class="col-sm-2">Кол-во студентов</dt>
+            <dd class="col-sm-10">@direction.Groups.Sum(g => g.Students.Count)</dd>
+        </dl>
         @if (direction.Groups.Count == 0)
         {
-            <p><em>По этому направлению пока нет групп.</em></p>
+            <p><em>Loading...</em></p>
         }
         else
         {
@@ -67,7 +73,7 @@
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        direction = await context.Directions.Include(d => d.Groups).FirstOrDefaultAsync(m => m.direction_id == direction_id);
+        direction = await context.Directions.Include(d => d.Groups).ThenInclude(g => g.Students).FirstOrDefaultAsync(m => m.direction_id == direction_id);
 
         if (direction is null)
         {
