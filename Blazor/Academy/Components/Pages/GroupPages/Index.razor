@@ -39,6 +39,8 @@
                         Property="group => group.group_name"
                         Sortable="true"
                         IsDefaultSortColumn="true" />
+        <PropertyColumn Property="group => group.Students.Count"
+                        Sortable="true" />
         <PropertyColumn Title="Дата начала" Property="group => group.start_date" Sortable="true" />
         <PropertyColumn Title="Время начала" Property="group => group.start_time" Sortable="true" />
         <TemplateColumn Title="Учебные дни"
@@ -81,7 +83,7 @@
     }
 
     private IQueryable<Group> FilteredGroups =>
-        context.Groups
+        context.Groups.Include(g => g.Students)
             .Include(g => g.Direction)
             .Where(g =>
                 string.IsNullOrWhiteSpace(TitleFilter) ||

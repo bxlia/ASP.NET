@@ -26,6 +26,8 @@
         <a href=@($"/Students/details?stud_id={student.stud_id}")>@student.full_name</a>
     </TemplateColumn>
     <PropertyColumn Property="student => student.birth_date" Sortable="true" />
+    <TemplateColumn Context="student" Title="Возраст" Sortable="true" SortBy="@sortByBirthDate">@student.age
+    </TemplateColumn>
     <PropertyColumn Property="student => student.Group.group_name" Sortable="true" />
     <PropertyColumn Property="student => student.Group.Direction.direction_name" />
     @* <PropertyColumn Property="student => student.email" />
@@ -42,6 +44,7 @@
 @code {
     private AcademyContext context = default!;
     GridSort<Student> sortBy = GridSort<Student>.ByAscending(s => s.last_name);
+    GridSort<Student> sortByBirthDate = GridSort<Student>.ByDescending(s => s.birth_date);
 
     protected override void OnInitialized()
     {
