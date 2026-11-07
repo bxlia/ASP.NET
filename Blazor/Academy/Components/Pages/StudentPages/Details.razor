@@ -1,4 +1,5 @@
 @page "/students/details"
+@rendermode InteractiveServer
 @using Microsoft.EntityFrameworkCore
 @using Academy.Models
 @inject IDbContextFactory<AcademyContext> DbFactory
@@ -22,7 +23,7 @@
         </div>
         <hr />
         <div class="human-container">
-            <dl class="row">
+            <dl class="row human-text-fields">
                 <dt class="col-sm-2">group</dt>
                 <dd class="col-sm-10">@student.group</dd>
                 <dt class="col-sm-2">last_name</dt>
@@ -45,7 +46,7 @@
                 <dd class="col-sm-10">@student.Group.Direction.direction_name</dd>
             </dl>
         </div>
-        <Photo Human="student"></Photo>
+        <Photo Human="student" AllowChange="true" OnPhotoChanged="SavePhoto"></Photo>
     }
 </div>
 
@@ -54,6 +55,19 @@
 
     [SupplyParameterFromQuery]
     private int stud_id { get; set; }
+
+    private async Task SavePhoto(byte[] photo)
+    {
+        using var context = DbFactory.CreateDbContext();
+        var entity = await context.Students.FirstOrDefaultAsync(s => s.stud_id == stud_id);
+        if (entity is null)
+        {
+            return;
+        }
+
+        entity.photo = photo;
+        await context.SaveChangesAsync();
+    }
 
     protected override async Task OnInitializedAsync()
     {

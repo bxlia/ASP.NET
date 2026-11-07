@@ -1,15 +1,15 @@
 ﻿@* <h3>Photo</h3> *@
 
-<div classc ="photo-area">
+<div class="photo-area">
 	<div>
 		@if (Human.photo != null)
 		{
-			<img src="data:image;base64,@Convert.ToBase64String(Human.photo)" alt="Фото" />
+			<img src="data:image/jpeg;base64,@Convert.ToBase64String(Human.photo)" alt="Фото" />
 		}
 	</div>
 	@if (AllowChange)
 	{
-		<InputFile OnChange="LoadPhoto"></InputFile>
+		<InputFile OnChange="LoadPhoto" accept="image/*"></InputFile>
 	}
 </div>
 
@@ -20,13 +20,17 @@
 	[Parameter]
 	public bool AllowChange { get; set; }
 
+	[Parameter]
+	public EventCallback<byte[]> OnPhotoChanged { get; set; }
+
 	IBrowserFile URL { get; set; }
 	async Task LoadPhoto(InputFileChangeEventArgs e)
 	{
 		URL = e.File;
 		MemoryStream ms = new MemoryStream();
-		await URL.OpenReadStream().CopyToAsync(ms);
+		await URL.OpenReadStream(1024*1024*10).CopyToAsync(ms);
 		Human.photo = ms.ToArray();
 		ms.Close();
+		await OnPhotoChanged.InvokeAsync(Human.photo);
 	}
 }
