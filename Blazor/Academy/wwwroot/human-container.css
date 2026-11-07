@@ -17,6 +17,7 @@
 	border:solid 1px;
 	height:95%;
 	width:100%;
+	min-height:68%;
 }
 .photo-area img{
 	width:100%;
