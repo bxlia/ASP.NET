@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Academy.Models
 {
@@ -13,6 +14,7 @@ namespace Academy.Models
 		public int group {  get; set; }	
 
 		//Navigation properties
+		[JsonIgnore]
 		public Group Group { get; set; }
 	}
 }

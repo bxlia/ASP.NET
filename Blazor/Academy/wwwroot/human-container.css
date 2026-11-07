@@ -3,11 +3,20 @@
 	justify-content:space-between;
 }
 .human-text-fields{
-	width:50%;
+	width:40%;
 	min-width:400px;
 }
+.human-edit-fields {
+	min-width: 400px;
+	width: 40%;
+}
 .photo-area{
-	width:50%;
+	width:40%;
+}
+.photo-area > div{
+	border:solid 1px;
+	height:95%;
+	width:100%;
 }
 .photo-area img{
 	width:100%;
