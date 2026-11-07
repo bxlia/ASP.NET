@@ -76,16 +76,7 @@ else
                     <InputText id="phone" @bind-Value="Student.phone" class="form-control" />
                     <ValidationMessage For="() => Student.phone" class="text-danger" />
                 </div>
-                <DropdownList TItem="Group"
-                              @bind-Value="Student.group"
-                              Items="ctx => ctx.Groups.OrderBy(g => g.group_name)"
-                              ValueSelector="g => g.group_id"
-                              TextSelector="g => g.group_name"
-                              Label="group"
-                              Id="group"
-                              Required="true" />
                 <CB_Group Student="Student"></CB_Group>
-                <Photo Human="Student" AllowChange="true"></Photo>
                 @* <div class="mb-3">
                     <label for="photo" class="form-label">photo:</label>
                     <InputText id="photo" @bind-Value="Student.photo" class="form-control" />
