@@ -1,4 +1,5 @@
 @page "/students/edit"
+@rendermode InteractiveServer
 @using Microsoft.EntityFrameworkCore
 @implements IDisposable
 @using Academy.Models
@@ -83,6 +84,8 @@ else
                               Label="group"
                               Id="group"
                               Required="true" />
+                <CB_Group Student="Student"></CB_Group>
+                <Photo Human="Student" AllowChange="true"></Photo>
                 @* <div class="mb-3">
                     <label for="photo" class="form-label">photo:</label>
                     <InputText id="photo" @bind-Value="Student.photo" class="form-control" />
