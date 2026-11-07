@@ -1,0 +1,73 @@
+@typeparam TItem
+@using System.Linq.Expressions
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<AcademyContext> DbFactory
+
+<div class="mb-3">
+    @if (Required)
+    {
+        <span class="text-danger">*</span>
+    }
+    <label for="@Id" class="form-label">@Label</label>
+
+    <InputSelect TValue="int"
+                 id="@Id"
+                 Value="Value"
+                 ValueChanged="ValueChanged"
+                 ValueExpression="ValueExpression"
+                 class="form-control">
+        @if (!string.IsNullOrWhiteSpace(Placeholder))
+        {
+            <option value="0" disabled>@Placeholder</option>
+        }
+        @foreach (TItem item in options)
+        {
+            <option value="@ValueSelector(item)">@TextSelector(item)</option>
+        }
+    </InputSelect>
+
+    @if (ValueExpression is not null)
+    {
+        <ValidationMessage For="ValueExpression" class="text-danger" />
+    }
+</div>
+
+@code {
+    private List<TItem> options = new();
+
+    [Parameter, EditorRequired]
+    public Func<AcademyContext, IQueryable<TItem>> Items { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public Func<TItem, int> ValueSelector { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public Func<TItem, string> TextSelector { get; set; } = default!;
+
+    [Parameter]
+    public int Value { get; set; }
+
+    [Parameter]
+    public EventCallback<int> ValueChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<int>>? ValueExpression { get; set; }
+
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Id { get; set; } = "dropdown";
+
+    [Parameter]
+    public string? Placeholder { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        options = await Items(context).ToListAsync();
+    }
+}

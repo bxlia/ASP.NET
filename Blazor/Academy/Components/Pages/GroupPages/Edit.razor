@@ -46,7 +46,14 @@ else
                     </InputSelect>
                     <ValidationMessage For="() => Group.direction" class="text-danger" />
                 </div> *@
-                <CB_Direction Group="Group"></CB_Direction>
+                <DropdownList TItem="Direction"
+                              @bind-Value="Group.direction"
+                              Items="ctx => ctx.Directions.OrderBy(d => d.direction_name)"
+                              ValueSelector="d => d.direction_id"
+                              TextSelector="d => d.direction_name"
+                              Label="direction"
+                              Id="direction"
+                              Required="true" />
                 <div class="mb-3">
                     <label for="start_date" class="form-label">start_date:</label>
                     <InputDate id="start_date" @bind-Value="Group.start_date" class="form-control" />
@@ -91,8 +98,6 @@ else
         }
     }
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task UpdateGroup()
     {
         using var context = DbFactory.CreateDbContext();
