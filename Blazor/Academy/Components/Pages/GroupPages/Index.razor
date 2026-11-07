@@ -54,8 +54,7 @@
                         Sortable="true" />
 
         <TemplateColumn Title="Действия" Context="group">
-@*             <a href="@($"groups/edit?group_id={group.group_id}")">Изменить</a> |
- *@            <a href="@($"groups/details?group_id={group.group_id}")">Details</a> |
+            <a href="@($"groups/details?group_id={group.group_id}")">Details</a> |
             <a href="@($"groups/delete?group_id={group.group_id}")">Delete</a>
         </TemplateColumn>
     </QuickGrid>

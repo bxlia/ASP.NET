@@ -75,7 +75,14 @@ else
                     <InputText id="phone" @bind-Value="Student.phone" class="form-control" />
                     <ValidationMessage For="() => Student.phone" class="text-danger" />
                 </div>
-                <CB_Group Student="Student"></CB_Group>
+                <DropdownList TItem="Group"
+                              @bind-Value="Student.group"
+                              Items="ctx => ctx.Groups.OrderBy(g => g.group_name)"
+                              ValueSelector="g => g.group_id"
+                              TextSelector="g => g.group_name"
+                              Label="group"
+                              Id="group"
+                              Required="true" />
                 @* <div class="mb-3">
                     <label for="photo" class="form-label">photo:</label>
                     <InputText id="photo" @bind-Value="Student.photo" class="form-control" />
@@ -134,8 +141,7 @@ else
         return Task.CompletedTask;
     }
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+
     private async Task UpdateStudent()
     {
         using var context = DbFactory.CreateDbContext();

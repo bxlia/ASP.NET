@@ -28,7 +28,15 @@
                 <InputNumber id="direction" @bind-Value="Group.direction" class="form-control" aria-required="true"/> 
                 <ValidationMessage For="() => Group.direction" class="text-danger" /> 
             </div>*@         
-            <CB_Direction Group="Group" OnCreate="true"></CB_Direction>
+            <DropdownList TItem="Direction"
+                          @bind-Value="Group.direction"
+                          Items="ctx => ctx.Directions.OrderBy(d => d.direction_name)"
+                          ValueSelector="d => d.direction_id"
+                          TextSelector="d => d.direction_name"
+                          Label="direction"
+                          Id="direction"
+                          Required="true"
+                          Placeholder="--- Выберите направление обучения ---" />
             <div class="mb-3">
                 <label for="start_date" class="form-label">start_date:</label> 
                 <InputDate id="start_date" @bind-Value="Group.start_date" class="form-control" /> 
@@ -60,7 +68,6 @@
 
     protected override void OnInitialized() => Group ??= new();
 
-    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddGroup()
     {
         using var context = DbFactory.CreateDbContext();

@@ -15,11 +15,15 @@
         <EditForm method="post" Model="Student" OnValidSubmit="AddStudent" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
-            <div class="mb-3">
-                <label for="group" class="form-label">group:</label> 
-                <InputNumber id="group" @bind-Value="Student.group" class="form-control" /> 
-                <ValidationMessage For="() => Student.group" class="text-danger" /> 
-            </div>        
+            <DropdownList TItem="Group"
+                          @bind-Value="Student.group"
+                          Items="ctx => ctx.Groups.OrderBy(g => g.group_name)"
+                          ValueSelector="g => g.group_id"
+                          TextSelector="g => g.group_name"
+                          Label="group"
+                          Id="group"
+                          Required="true"
+                          Placeholder="--- Выберите группу ---" />
             <div class="mb-3">
                 <span class="text-danger">*</span>
                 <label for="last_name" class="form-label">last_name:</label> 
@@ -74,7 +78,6 @@
 
     protected override void OnInitialized() => Student ??= new();
 
-    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddStudent()
     {
         using var context = DbFactory.CreateDbContext();

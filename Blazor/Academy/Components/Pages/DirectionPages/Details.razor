@@ -14,7 +14,7 @@
 <div>
     @if (direction is null)
     {
-        <p><em>Загрузка...</em></p>
+        <p><em>Loading...</em></p>
     }
     else
     {
@@ -42,6 +42,9 @@
                                 Property="group => group.group_name"
                                 Sortable="true"
                                 IsDefaultSortColumn="true" />
+                <PropertyColumn Title="Студентов"
+                                Property="group => group.Students.Count"
+                                Sortable="true" />
                 <PropertyColumn Title="Дата начала" Property="group => group.start_date" Sortable="true" />
                 <PropertyColumn Title="Время начала" Property="group => group.start_time" Sortable="true" />
                 <TemplateColumn Title="Учебные дни"
