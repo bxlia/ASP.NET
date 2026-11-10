@@ -14,5 +14,11 @@ namespace Academy.Models
 
 		[Column(TypeName = "smallmoney")]
 		public decimal rate { get; set; }
+
+		//Calculated properties:
+		public int experience 
+		{
+			get => (int)((DateTime.Now.Date - work_since.ToDateTime(new TimeOnly(0)).Date).Days/365.25);
+		}
 	}
 }
