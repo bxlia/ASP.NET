@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,7 +14,10 @@ namespace Academy.Models
 		public string discipline_name { get; set; }
 
 		[Required]
-		[Column("number_of_lessons", TypeName = "tinyint")]
-		public int number_of_lessons { get; set; }
+		[Column("number_of_lessons")]
+		public byte number_of_lessons { get; set; }
+
+		//Navigation properties:
+		public ICollection<TeachersDisciplinesRelation> TDR { get; } = new List<TeachersDisciplinesRelation>();
 	}
 }
