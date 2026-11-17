@@ -23,5 +23,6 @@ namespace Academy.Models
 
 		[InverseProperty("Discipline")]
 		public ObservableCollection<DependentDisciplines> DependentDisciplines { get; } = new ObservableCollection<DependentDisciplines>();
+		public ObservableCollection<DependentDisciplines> RequiredDisciplines { get; } = new ObservableCollection<DependentDisciplines>();
 	}
 }
