@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,6 +19,9 @@ namespace Academy.Models
 		public byte number_of_lessons { get; set; }
 
 		//Navigation properties:
-		public ICollection<TeachersDisciplinesRelation> TDR { get; } = new List<TeachersDisciplinesRelation>();
+		public ObservableCollection<TeachersDisciplinesRelation> TDR { get; } = new ObservableCollection<TeachersDisciplinesRelation>();
+
+		[InverseProperty("Discipline")]
+		public ObservableCollection<DependentDisciplines> DependentDisciplines { get; } = new ObservableCollection<DependentDisciplines>();
 	}
 }

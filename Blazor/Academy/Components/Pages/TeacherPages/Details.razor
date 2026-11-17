@@ -17,7 +17,7 @@
     else {
         <div class="controls">
             <h1>@teacher.full_name</h1>
-            <a href="@($"/teachers/edit?teacher_id={teacher.teacher_id}")" class="btn btn-primary">Редактировать</a>
+            <a href="@($"/teachers/edit?teacher_id={teacher.teacher_id}")" class="btn btn-primary">Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ</a>
         </div>
         <hr />
         <div class="human-container">
@@ -29,7 +29,7 @@
                 <dt class="col-sm-2">middle_name</dt>
                 <dd class="col-sm-10">@teacher.middle_name</dd>
                 <dt class="col-sm-2">birth_date</dt>
-                <dd class="col-sm-10">@teacher.birth_date (@teacher.age лет)</dd>
+                <dd class="col-sm-10">@teacher.birth_date (@teacher.age Р»РµС‚)</dd>
                 <dt class="col-sm-2">email</dt>
                 <dd class="col-sm-10">@teacher.email</dd>
                 <dt class="col-sm-2">phone</dt>
@@ -37,13 +37,13 @@
                 <dt class="col-sm-2">work_since</dt>
                 <dd class="col-sm-10">@teacher.work_since</dd>
                 <dt class="col-sm-2">experience</dt>
-                <dd class="col-sm-10">@teacher.experience лет</dd>
+                <dd class="col-sm-10">@teacher.experience Р»РµС‚</dd>
                 <dt class="col-sm-2">rate</dt>
                 <dd class="col-sm-10">@teacher.rate</dd>
             </dl>
             <Photo Human="teacher"></Photo>
         </div>
-        <h3>Преподаваемые дисциплины @(teacher.TDR.Count)</h3>
+        <h3>РџСЂРµРїРѕРґР°РІР°РµРјС‹Рµ РґРёСЃС†РёРїР»РёРЅС‹ @(teacher.TDR.Count)</h3>
         <ul>
             @foreach (TeachersDisciplinesRelation tdr in teacher.TDR)
             {

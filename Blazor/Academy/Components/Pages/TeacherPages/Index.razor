@@ -10,15 +10,15 @@
 <PageTitle>Teachers</PageTitle>
 
 <div class="controls">
-    <h1>Преподаватели</h1>
+    <h1>РџСЂРµРїРѕРґР°РІР°С‚РµР»Рё</h1>
 
     <p>
-        <a href="teachers/create" class="btn btn-primary">Добавить</a>
+        <a href="teachers/create" class="btn btn-primary">Р”РѕР±Р°РІРёС‚СЊ</a>
     </p>
 </div>
 
 <QuickGrid Class="table" Items="context.Teachers">
-    <TemplateColumn Context="teacher" Title="Преподаватель" Sortable="true" SortBy="sortBy">
+    <TemplateColumn Context="teacher" Title="РџСЂРµРїРѕРґР°РІР°С‚РµР»СЊ" Sortable="true" SortBy="sortBy">
         <a href=@($"/teachers/details?teacher_id={teacher.teacher_id}")>@teacher.full_name</a>
     </TemplateColumn>
     <PropertyColumn Property="teacher => teacher.birth_date" Sortable="true" />
@@ -27,7 +27,7 @@
     <PropertyColumn Property="teacher => teacher.photo" Sortable="true" /> *@
     @* <PropertyColumn Property="teacher => teacher.work_since" Sortable="true" /> *@
     <TemplateColumn Context="teacher" 
-        Title="Опыт преподавания" 
+        Title="РћРїС‹С‚ РїСЂРµРїРѕРґР°РІР°РЅРёСЏ" 
         SortBy="GridSort<Teacher>.ByDescending(t => t.work_since)">@teacher.experience</TemplateColumn>
     <PropertyColumn Property="teacher => teacher.rate" Sortable="true" />
 
