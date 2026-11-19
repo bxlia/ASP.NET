@@ -3,9 +3,8 @@
 	justify-content:space-between;
 	flex-wrap: wrap;
 }
-.human-container > form {
-	flex: 1 1 260px;
-	min-width: 260px;
+.human-container > .add-disciplines {
+	flex: 1 1 100%;
 	align-self: flex-start;
 }
 .human-text-fields{
@@ -23,7 +22,7 @@
 	border:solid 1px;
 	height:95%;
 	width:100%;
-	min-height:68%;
+	min-height:200px;
 }
 .photo-area img{
 	width:100%;
