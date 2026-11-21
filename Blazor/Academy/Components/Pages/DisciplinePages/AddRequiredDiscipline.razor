@@ -2,24 +2,25 @@
 @using Microsoft.EntityFrameworkCore;
 @inject IDbContextFactory<AcademyContext> DbFactory;
 
-<div class="add-disciplines">
-	<h5>Выберите дисциплину</h5>
-	<InputSelect @bind-Value="selected_discipline" class="form-control">
-		<option value="-1" disabled>--- Выберите дисциплину ---</option>
-		@if (Disciplines != null && Required != null)
-		{
+<form>
+	<div class="disciplines-dropdown-container">
+		<InputSelect @bind-Value="selected_discipline" class="form-control">
+			<option value="-1" disabled>--- Выберите дисциплину ---</option>
+			@if (Disciplines != null && Required != null)
+			{
 			@foreach (Discipline d in Disciplines)
 			{
-				@if
-				(
-					d.discipline_id == Discipline.discipline_id ||
-					Required.Any(rd => rd.required_discipline == d.discipline_id) ||
-					NewRequired.Any(rd => rd.required_discipline == d.discipline_id)
-				) continue;
-				<option value="@d.discipline_id">@d.discipline_name</option>
+			@if
+			(
+			d.discipline_id == Discipline.discipline_id ||
+			Required.Any(rd => rd.required_discipline == d.discipline_id) ||
+			NewRequired.Any(rd => rd.required_discipline == d.discipline_id)
+			) continue;
+			<option value="@d.discipline_id">@d.discipline_name</option>
 			}
-		}
-	</InputSelect>
+			}
+		</InputSelect>
+	</div>
 	<button type="button" class="btn btn-primary" @onclick="AddDiscipline">Добавить</button>
 	<ul>
 		@foreach (RequiredDisciplines rd in NewRequired)
@@ -37,7 +38,7 @@
 			}
 		</ul>
 	}
-</div>
+</form>
 
 @code {
 	[Parameter]

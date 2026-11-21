@@ -6,3 +6,9 @@
 .adjacent-disciplines > ul{
 	min-width:45%;
 }
+.disciplines-dropdown-container
+{
+	display: flex;
+	justify-content: space-between;
+	align-items:center;
+}
