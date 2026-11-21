@@ -39,6 +39,7 @@ else
                 </div>
                 <AddRequiredDiscipline @ref="addRequiredDiscipline" Discipline="Discipline"></AddRequiredDiscipline>
                 <button type="submit" class="btn btn-primary">Save</button>
+                <AddDependentDisciplines Discipline="Discipline"></AddDependentDisciplines>
             </EditForm>
         </div>
     </div>
@@ -62,7 +63,12 @@ else
         if (Discipline is null)
         {
             using var context = DbFactory.CreateDbContext();
-            Discipline = await context.Disciplines.Include(d => d.RequiredDisciplines).Include(d => d.DependentDisciplines).FirstOrDefaultAsync(m => m.discipline_id == discipline_id);
+            Discipline = await context.Disciplines
+                        .Include(d => d.RequiredDisciplines)
+                        .ThenInclude(rd => rd.Discipline)
+                        .Include(d => d.DependentDisciplines)
+                        .ThenInclude(dd => dd.DependentDiscipline)
+                        .FirstOrDefaultAsync(m => m.discipline_id == discipline_id);
         }
 
         if (Discipline is null)
