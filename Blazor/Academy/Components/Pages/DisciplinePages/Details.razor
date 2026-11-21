@@ -34,9 +34,9 @@
                 @if (discipline.RequiredDisciplines != null)
                 {
                     <ul>
-                        @foreach (DependentDisciplines rd in discipline.RequiredDisciplines)
+                        @foreach (RequiredDisciplines rd in discipline.RequiredDisciplines)
                         {
-                            <li>@rd.Discipline.discipline_name</li>
+                            <li>@rd.RequiredDiscipline.discipline_name</li>
                         }
                     </ul>
                 }
@@ -81,7 +81,7 @@
         Include(d => d.DependentDisciplines).
         ThenInclude(dd => dd.DependentDiscipline).
         Include(d => d.RequiredDisciplines).
-        ThenInclude(rd => rd.Discipline).
+        ThenInclude(rd => rd.RequiredDiscipline).
         FirstOrDefaultAsync(m => m.discipline_id == discipline_id);
 
         if (discipline is null)

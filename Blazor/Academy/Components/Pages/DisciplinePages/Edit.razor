@@ -37,6 +37,7 @@ else
                     <input type="number" id="number_of_lessons" name="Discipline.number_of_lessons" @bind="Discipline.number_of_lessons" class="form-control" aria-required="true"/>
                     <ValidationMessage For="() => Discipline.number_of_lessons" class="text-danger" />
                 </div>
+                <AddRequiredDiscipline @ref="addRequiredDiscipline" Discipline="Discipline"></AddRequiredDiscipline>
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
         </div>
@@ -54,12 +55,14 @@ else
     [SupplyParameterFromForm]
     private Discipline? Discipline { get; set; }
 
+    AddRequiredDiscipline? addRequiredDiscipline;
+
     protected override async Task OnInitializedAsync()
     {
         if (Discipline is null)
         {
             using var context = DbFactory.CreateDbContext();
-            Discipline = await context.Disciplines.FirstOrDefaultAsync(m => m.discipline_id == discipline_id);
+            Discipline = await context.Disciplines.Include(d => d.RequiredDisciplines).Include(d => d.DependentDisciplines).FirstOrDefaultAsync(m => m.discipline_id == discipline_id);
         }
 
         if (Discipline is null)
@@ -77,6 +80,8 @@ else
 
         try
         {
+
+            if (addRequiredDiscipline != null) await addRequiredDiscipline.Update();
             await context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
