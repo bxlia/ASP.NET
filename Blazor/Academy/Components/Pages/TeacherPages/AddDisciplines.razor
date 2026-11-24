@@ -4,7 +4,7 @@
 
 @* <h3>AddDisciplines</h3> *@
 
-<form @onsubmit="Update">
+<div class="add-disciplines">
 	<h5>Выберите дисциплину</h5>
 	<InputSelect @bind-Value="discipline" class="form-control">
 		<option value="-1" disabled>--- Выберите дисциплину ---</option>
@@ -42,7 +42,7 @@
 			}
 		</ul>	
 	}
-</form>
+</div>
 
 @code {
 	[Parameter]

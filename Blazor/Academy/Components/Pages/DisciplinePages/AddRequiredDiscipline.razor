@@ -1,0 +1,93 @@
+﻿@using Academy.Models;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<AcademyContext> DbFactory;
+
+<div class="add-disciplines">
+	<h5>Выберите дисциплину</h5>
+	<div class="disciplines-dropdown-container">
+		<InputSelect @bind-Value="selected_discipline" class="form-control">
+			<option value="-1" disabled>--- Выберите дисциплину ---</option>
+			@if (Disciplines != null && Required != null)
+			{
+			@foreach (Discipline d in Disciplines)
+			{
+			@if
+			(
+			d.discipline_id == Discipline.discipline_id ||
+			Required.Any(rd => rd.required_discipline == d.discipline_id) ||
+			NewRequired.Any(rd => rd.required_discipline == d.discipline_id)
+			) continue;
+			<option value="@d.discipline_id">@d.discipline_name</option>
+			}
+			}
+		</InputSelect>
+		<button type="button" class="btn btn-primary" @onclick="AddDiscipline">Добавить</button>
+	</div>
+	<ul>
+		@foreach (RequiredDisciplines rd in NewRequired)
+		{
+			<li>@rd.RequiredDiscipline.discipline_name</li>
+		}
+	</ul>
+	<hr />
+	@if (Required != null)
+	{
+		<ul>
+			@foreach (RequiredDisciplines rd in Required)
+			{
+				<li>@rd.RequiredDiscipline.discipline_name</li>
+			}
+		</ul>
+	}
+</div>
+
+@code {
+	[Parameter]
+	public Discipline Discipline { get; set; }
+
+	ICollection<Discipline> Disciplines { get; set; }
+	ICollection<RequiredDisciplines> Required { get; set; }
+	List<RequiredDisciplines> NewRequired = new List<RequiredDisciplines>();
+
+	int selected_discipline = -1;
+
+	protected override async Task OnInitializedAsync()
+	{
+		using AcademyContext context = DbFactory.CreateDbContext();
+		Disciplines = await context.Disciplines.ToListAsync();
+		Required = await context.RequiredDisciplines
+							.Include(rd => rd.RequiredDiscipline)
+							.Where(rd => rd.discipline == Discipline.discipline_id)
+							.ToListAsync();
+	}
+
+	void AddDiscipline()
+	{
+		if (selected_discipline == -1) return;
+		if (NewRequired.Any(rd => rd.required_discipline == selected_discipline)) return;
+
+		RequiredDisciplines newRelation = new RequiredDisciplines
+		{
+			discipline = Discipline.discipline_id,
+			required_discipline = (short)this.selected_discipline
+		};
+		newRelation.Discipline = this.Discipline;
+		newRelation.RequiredDiscipline = Disciplines.Where(d => d.discipline_id == this.selected_discipline).First();
+		NewRequired.Add
+		(
+			newRelation
+		);
+		this.selected_discipline = -1;
+	}
+
+	public async Task Update()
+	{
+		using AcademyContext context = DbFactory.CreateDbContext();
+		List<RequiredDisciplines> pairs = new List<RequiredDisciplines>();
+		foreach (RequiredDisciplines rd in NewRequired)
+			pairs.Add(new RequiredDisciplines { discipline = Discipline.discipline_id, required_discipline = rd.required_discipline });
+
+		await context.RequiredDisciplines.AddRangeAsync(pairs);
+		await context.SaveChangesAsync();
+	}
+}

@@ -1,0 +1,93 @@
+﻿@using Academy.Models;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<AcademyContext> DbFactory;
+
+<div class="add-disciplines">
+	<h5>Выберите дисциплину</h5>
+	<div class="disciplines-dropdown-container">
+		<InputSelect @bind-Value="selected_dependent" class="form-control">
+			<option value="-1" disabled>--- Выберите дисциплину ---</option>
+			@if (Disciplines != null && Dependents != null)
+			{
+				@foreach (Discipline d in Disciplines)
+				{
+					@if
+					(
+						d.discipline_id == Discipline.discipline_id ||
+						Dependents.Any(dd => dd.dependent_discipline == d.discipline_id) ||
+						NewDependents.Any(dd => dd.dependent_discipline == d.discipline_id)
+					) continue;
+					<option value="@d.discipline_id">@d.discipline_name</option>
+				}
+			}
+		</InputSelect>
+		<button type="button" class="btn btn-primary" @onclick="AddDiscipline">Добавить</button>
+	</div>
+	<ul>
+		@foreach (DependentDisciplines dd in NewDependents)
+		{
+			<li>@dd.DependentDiscipline.discipline_name</li>
+		}
+	</ul>
+	<hr />
+	@if (Dependents != null)
+	{
+		<ul>
+			@foreach (DependentDisciplines dd in Dependents)
+			{
+				<li>@dd.DependentDiscipline.discipline_name</li>
+			}
+		</ul>
+	}
+</div>
+
+@code {
+	[Parameter]
+	public Discipline Discipline { get; set; }
+
+	ICollection<Discipline> Disciplines { get; set; }
+	ICollection<DependentDisciplines> Dependents { get; set; }
+	List<DependentDisciplines> NewDependents = new List<DependentDisciplines>();
+
+	int selected_dependent = -1;
+
+	protected override async Task OnInitializedAsync()
+	{
+		using AcademyContext context = DbFactory.CreateDbContext();
+		Disciplines = await context.Disciplines.ToListAsync();
+		Dependents = await context.DependentDisciplines
+							.Include(dd => dd.DependentDiscipline)
+							.Where(dd => dd.discipline == Discipline.discipline_id)
+							.ToListAsync();
+	}
+
+	void AddDiscipline()
+	{
+		if (selected_dependent == -1) return;
+		if (NewDependents.Any(dd => dd.dependent_discipline == selected_dependent)) return;
+
+		DependentDisciplines newRelation = new DependentDisciplines
+		{
+			discipline = Discipline.discipline_id,
+			dependent_discipline = (short)this.selected_dependent
+		};
+		newRelation.Discipline = this.Discipline;
+		newRelation.DependentDiscipline = Disciplines.Where(d => d.discipline_id == this.selected_dependent).First();
+		NewDependents.Add
+		(
+			newRelation
+		);
+		this.selected_dependent = -1;
+	}
+
+	public async Task Update()
+	{
+		using AcademyContext context = DbFactory.CreateDbContext();
+		List<DependentDisciplines> pairs = new List<DependentDisciplines>();
+		foreach (DependentDisciplines dd in NewDependents)
+			pairs.Add(new DependentDisciplines { discipline = Discipline.discipline_id, dependent_discipline = dd.dependent_discipline });
+
+		await context.DependentDisciplines.AddRangeAsync(pairs);
+		await context.SaveChangesAsync();
+	}
+}
