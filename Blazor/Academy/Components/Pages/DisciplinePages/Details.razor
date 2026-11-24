@@ -24,10 +24,10 @@
             <dt class="col-sm-2">discipline_id</dt>
             <dd class="col-sm-10">@discipline.discipline_name</dd>
         </dl>
-        <div>
+        @* <div>
             <a href="@($"/disciplines/edit?discipline_id={discipline.discipline_id}")">Edit</a> |
             <a href="@($"/disciplines")">Back to List</a>
-        </div>
+        </div> *@
         <div class="adjacent-disciplines">
             <div>
                 <h5>Требуемые дисциплины</h5>
@@ -36,7 +36,11 @@
                     <ul>
                         @foreach (RequiredDisciplines rd in discipline.RequiredDisciplines)
                         {
-                            <li>@rd.RequiredDiscipline.discipline_name</li>
+                            <li>
+                                <a href=@($"/Disciplines/details?discipline_id={rd.discipline}")>
+                                    @rd.RequiredDiscipline.discipline_name
+                                </a>
+                            </li>
                         }
                     </ul>
                 }
@@ -48,7 +52,11 @@
                     <ul>
                         @foreach(DependentDisciplines dd in discipline.DependentDisciplines)
                         {
-                            <li>@dd.DependentDiscipline.discipline_name</li>
+                            <li>
+                                <a href=@($"/Disciplines/details?discipline_id={dd.Discipline.discipline_id}")>
+                                    @dd.DependentDiscipline.discipline_name
+                                </a>
+                            </li>
                         }
                     </ul>
                 }
