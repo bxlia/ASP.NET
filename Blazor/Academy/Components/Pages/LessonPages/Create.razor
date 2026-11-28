@@ -16,9 +16,9 @@
 		<EditForm method="post" Model="Lesson" OnValidSubmit="AddLesson" FormName="create" Enhance>
 			<DataAnnotationsValidator />
 			<ValidationSummary class="text-danger" role="alert" />
-			<CBgroup Group="Group" Context="this.context"></CBgroup>
+			<CBgroup @bind-Group="Group" Context="this.context"></CBgroup>
 			<CBdiscipline @bind-Discipline="Discipline" Context="this.context"></CBdiscipline> 
-            <CBteacher Teacher="Teacher" Discipline="Discipline" Context="this.context"></CBteacher>
+            <CBteacher @bind-Teacher="Teacher" Discipline="Discipline" Context="this.context"></CBteacher>
 			
 			<div class="mb-3">
 				<span class="text-danger">*</span>
